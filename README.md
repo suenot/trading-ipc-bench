@@ -60,7 +60,27 @@ python report.py
 ## Results
 
 <!-- BENCH_RESULTS_START -->
-_No results yet — run `python run_all.py` first._
+_Last updated: 2026-03-04 22:45 UTC · runner: `ubuntu-latest`_
+
+### 64 B messages &nbsp; (n = 5,000 round-trips)
+
+| Transport | p50 μs | p95 μs | p99 μs | p99.9 μs | msg/s |
+|---|---:|---:|---:|---:|---:|
+| uds | 20.2 | 31.1 | 42.6 | 65.5 | 46,512 |
+| pipe | 26.3 | 33.9 | 44.7 | 53.9 | 36,673 |
+| tcp | 41.7 | 54.6 | 67.2 | 78.0 | 22,425 |
+| shm | 77.6 | 100.3 | 117.9 | 287.7 | 12,233 |
+| zmq_ipc | 118.4 | 137.9 | 149.5 | 164.1 | 8,269 |
+| zmq_tcp | 137.6 | 158.9 | 170.7 | 186.3 | 7,149 |
+| nng_ipc | 141.0 | 160.6 | 170.8 | 190.3 | 7,050 |
+| nng_tcp | 158.4 | 180.6 | 194.3 | 223.1 | 6,250 |
+| websocket | 292.5 | 345.5 | 401.6 | 468.4 | 3,345 |
+| http_rest | 296.8 | 366.4 | 385.3 | 419.8 | 3,249 |
+| grpc_uds | 396.7 | 448.3 | 475.2 | 546.2 | 2,505 |
+| nats | 411.4 | 466.6 | 527.2 | 712.4 | 2,394 |
+| grpc_tcp | 423.0 | 489.7 | 514.5 | 584.7 | 2,341 |
+| redis_pubsub | 513.0 | 569.8 | 617.8 | 809.7 | 1,957 |
+| redis_streams | 665.9 | 772.4 | 844.2 | 999.5 | 1,491 |
 <!-- BENCH_RESULTS_END -->
 
 > Results above are recorded on `ubuntu-latest` (GitHub Actions). Actual latency depends on CPU, OS, and kernel version — run locally to get your own numbers.
