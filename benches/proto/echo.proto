@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package bench;
+
+message EchoRequest {
+  bytes data = 1;
+}
+
+message EchoReply {
+  bytes data = 1;
+}
+
+service EchoService {
+  // Unary RPC — one request, one response
+  rpc Echo (EchoRequest) returns (EchoReply);
+}

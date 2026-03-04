@@ -1,4 +1,16 @@
+# ── Core (always required) ────────────────────────────────────────────────────
 pyzmq>=25.0.0
 websockets>=12.0
 redis>=5.0.0
-numpy>=1.24.0
+aiohttp>=3.9.0
+
+# ── gRPC (required for bench_grpc_tcp.py / bench_grpc_uds.py) ────────────────
+grpcio>=1.60.0
+grpcio-tools>=1.60.0
+
+# ── NNG / nanomsg (required for bench_nng.py) ────────────────────────────────
+pynng>=0.7.2
+
+# ── Optional — needs external server ─────────────────────────────────────────
+# nats-py>=2.6.0        # bench_nats.py  — start: nats-server &
+# kafka-python>=2.0.0   # bench_kafka.py — start: docker run -d -p 9092:9092 apache/kafka:3.7.0
