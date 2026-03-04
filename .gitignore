@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+.env
+venv/
+.venv/
+env/
+/tmp/trading_bench_*
+results/*.json
