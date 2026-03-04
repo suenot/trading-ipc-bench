@@ -1,0 +1,75 @@
+name: IPC Benchmarks
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 1'   # Every Monday at 03:00 UTC
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # needed to commit updated README back to main
+
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt nats-py
+
+      # ── NATS server (optional, ~5 MB binary) ────────────────────────────────
+      - name: Install NATS server
+        run: |
+          NATS_VER="v2.10.14"
+          curl -fsSL "https://github.com/nats-io/nats-server/releases/download/${NATS_VER}/nats-server-${NATS_VER}-linux-amd64.zip" -o nats.zip
+          unzip -q nats.zip
+          sudo mv "nats-server-${NATS_VER}-linux-amd64/nats-server" /usr/local/bin/
+          nats-server &
+          sleep 2
+
+      # ── Run benchmarks ───────────────────────────────────────────────────────
+      # Kafka is skipped automatically — no server available.
+      - name: Run all benchmarks (core + Redis + NATS)
+        run: python run_all.py --optional
+
+      # ── Artifacts ────────────────────────────────────────────────────────────
+      - name: Upload JSON results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results-${{ github.run_number }}
+          path: results/
+          retention-days: 90
+
+      # ── Job summary (visible on the Actions tab) ────────────────────────────
+      - name: Write job summary
+        run: python ci_update_readme.py >> $GITHUB_STEP_SUMMARY
+
+      # ── Commit updated README back (only on push to main) ───────────────────
+      - name: Update README.md with real results
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        run: |
+          python ci_update_readme.py --update-readme
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md results/
+          git diff --staged --quiet || git commit -m "ci: update benchmark results [skip ci]"
+          git push

@@ -57,34 +57,13 @@ python report.py
 | `bench_nats.py` | `brew install nats-server && nats-server` |
 | `bench_kafka.py` | `docker run -d -p 9092:9092 apache/kafka:3.7.0` |
 
-## Example output (64-byte messages)
+## Results
 
-```
-════════════════════════════════════════════════════════════════════════════════════
-  Trading IPC Benchmark  |  msg size: 64 bytes
-════════════════════════════════════════════════════════════════════════════════════
-Transport                     p50 (μs)   p95 (μs)   p99 (μs)   p99.9 (μs)        msg/s
-────────────────────────────────────────────────────────────────────────────────────
-Shared Memory                      0.8        1.5        3.2         12.0    1,250,000
-Unix Domain Socket                  5.2        8.1       15.3         45.0      192,000
-Named Pipe (FIFO)                   6.8       12.4       22.1         58.0      147,000
-NNG IPC                             7.5       13.0       25.0         60.0      133,000
-ZeroMQ IPC                          8.5       14.2       28.0         65.0      117,000
-TCP Loopback                       12.1       18.5       35.2         82.0       82,000
-NNG TCP                            13.0       22.0       40.0         90.0       77,000
-ZeroMQ TCP                         14.3       22.0       42.1         95.0       69,000
-NATS                               35.0       55.0       90.0        200.0       28,000
-WebSocket                          25.0       38.0       65.0        150.0       40,000
-Redis Pub/Sub                      45.0       72.0      120.0        280.0       22,000
-Redis Streams                      55.0       90.0      145.0        320.0       18,000
-gRPC UDS                          102.0      145.0      210.0        450.0        9,800
-gRPC TCP                          127.0      180.0      260.0        520.0        7,900
-HTTP REST                         180.0      260.0      380.0        800.0        5,500
-Kafka                           2,500.0    4,000.0    6,000.0     12,000.0          400
-────────────────────────────────────────────────────────────────────────────────────
-```
+<!-- BENCH_RESULTS_START -->
+_No results yet — run `python run_all.py` first._
+<!-- BENCH_RESULTS_END -->
 
-> ⚠️ Numbers above are illustrative. Run on your own hardware — actual results depend on CPU, OS, and kernel version.
+> Results above are recorded on `ubuntu-latest` (GitHub Actions). Actual latency depends on CPU, OS, and kernel version — run locally to get your own numbers.
 
 ## Methodology
 
