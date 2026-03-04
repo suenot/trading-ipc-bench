@@ -7,9 +7,9 @@ from typing import List, Dict, Any
 
 RESULTS_DIR = Path(__file__).parent.parent / "results"
 
-WARMUP_ITERATIONS = 1_000
-BENCH_ITERATIONS = 100_000
-MESSAGE_SIZES = [64, 256, 1024]
+WARMUP_ITERATIONS = int(os.environ.get("IPC_BENCH_WARMUP", 1_000))
+BENCH_ITERATIONS = int(os.environ.get("IPC_BENCH_ITERATIONS", 100_000))
+MESSAGE_SIZES = [int(s) for s in os.environ.get("IPC_BENCH_SIZES", "64,256,1024").split(",")]
 
 
 def make_message(size: int) -> bytes:

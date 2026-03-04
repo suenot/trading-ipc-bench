@@ -23,11 +23,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.common import (
     make_message, compute_stats,
     save_results, print_stats,
-    WARMUP_ITERATIONS, MESSAGE_SIZES,
+    WARMUP_ITERATIONS, BENCH_ITERATIONS, MESSAGE_SIZES,
 )
 
 # Redis Streams are persistent but slower than Pub/Sub — use 10K iterations
-STREAM_ITERATIONS = 10_000
+STREAM_ITERATIONS = min(BENCH_ITERATIONS, 10_000)
 REQ_STREAM = "bench:streams:req"
 RESP_STREAM = "bench:streams:resp"
 

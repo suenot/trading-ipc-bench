@@ -23,12 +23,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.common import (
     make_message, compute_stats,
     save_results, print_stats,
-    WARMUP_ITERATIONS, MESSAGE_SIZES,
+    WARMUP_ITERATIONS, BENCH_ITERATIONS, MESSAGE_SIZES,
 )
 
 NATS_URL = "nats://127.0.0.1:4222"
 SUBJECT = "bench.echo"
-NATS_ITERATIONS = 10_000  # NATS is fast but async overhead adds up
+NATS_ITERATIONS = min(BENCH_ITERATIONS, 10_000)  # NATS is fast but async overhead adds up
 
 
 async def _check_nats() -> bool:

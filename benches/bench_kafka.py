@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.common import (
     make_message, compute_stats,
     save_results, print_stats,
-    MESSAGE_SIZES,
+    WARMUP_ITERATIONS, BENCH_ITERATIONS, MESSAGE_SIZES,
 )
 
 BROKER = "127.0.0.1:9092"
@@ -37,8 +37,8 @@ REQ_TOPIC = "bench-req"
 RESP_TOPIC = "bench-resp"
 
 # Kafka round-trip is 2–15 ms — 1000 iterations is sufficient for statistics
-KAFKA_ITERATIONS = 1_000
-KAFKA_WARMUP = 50
+KAFKA_ITERATIONS = min(BENCH_ITERATIONS, 1_000)
+KAFKA_WARMUP = min(WARMUP_ITERATIONS, 50)
 
 
 def _check_kafka() -> bool:

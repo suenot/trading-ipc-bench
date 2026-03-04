@@ -19,11 +19,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.common import (
     make_message, compute_stats,
     save_results, print_stats,
-    WARMUP_ITERATIONS, MESSAGE_SIZES,
+    WARMUP_ITERATIONS, BENCH_ITERATIONS, MESSAGE_SIZES,
 )
 
 # Redis is ~5× slower than TCP — use fewer iterations for a reasonable runtime
-REDIS_ITERATIONS = 10_000
+REDIS_ITERATIONS = min(BENCH_ITERATIONS, 10_000)
 REQ_CH = "bench:req"
 RESP_CH = "bench:resp"
 

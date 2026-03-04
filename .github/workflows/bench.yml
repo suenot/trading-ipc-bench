@@ -11,6 +11,7 @@ on:
 jobs:
   bench:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write        # needed to commit updated README back to main
 
@@ -49,6 +50,10 @@ jobs:
       # ── Run benchmarks ───────────────────────────────────────────────────────
       # Kafka is skipped automatically — no server available.
       - name: Run all benchmarks (core + Redis + NATS)
+        env:
+          IPC_BENCH_ITERATIONS: "5000"
+          IPC_BENCH_WARMUP: "100"
+          IPC_BENCH_SIZES: "64"
         run: python run_all.py --optional
 
       # ── Artifacts ────────────────────────────────────────────────────────────

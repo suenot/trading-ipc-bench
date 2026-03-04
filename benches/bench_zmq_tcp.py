@@ -67,6 +67,7 @@ def run(msg_size: int = 64) -> dict:
     sock.close()
     ctx.term()
     stop.set()
+    t.join(timeout=3)
 
     stats = compute_stats(latencies)
     print_stats("ZeroMQ TCP", msg_size, stats)
@@ -77,3 +78,4 @@ def run(msg_size: int = 64) -> dict:
 if __name__ == "__main__":
     for size in MESSAGE_SIZES:
         run(size)
+        time.sleep(0.2)  # let the OS reclaim the port
